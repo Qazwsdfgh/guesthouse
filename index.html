@@ -2,11 +2,18 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Гостевой дом на Ольховой | Тульский, Адыгея</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* Запрет горизонтального скролла */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+        
         /* Анимации */
         @keyframes fadeInUp {
             from {
@@ -72,6 +79,7 @@
             position: relative;
             height: 100vh;
             overflow: hidden;
+            width: 100%;
         }
 
         .hero-slide {
@@ -190,7 +198,7 @@
             50% { opacity: 0.8; }
         }
 
-        /* ГАЛЕРЕЯ ВЕЕРОМ */
+        /* ГАЛЕРЕЯ ВЕЕРОМ - адаптировано для мобильных */
         .photo-stack {
             position: relative;
             width: 280px;
@@ -216,20 +224,23 @@
             background-position: center;
         }
 
-        .photo-stack:hover .photo-stack-item:nth-child(1) {
-            transform: rotate(-15deg) translateX(-30px);
-        }
+        /* Эффект веера только на десктопе */
+        @media (min-width: 768px) {
+            .photo-stack:hover .photo-stack-item:nth-child(1) {
+                transform: rotate(-15deg) translateX(-30px);
+            }
 
-        .photo-stack:hover .photo-stack-item:nth-child(2) {
-            transform: rotate(-5deg) translateX(-15px);
-        }
+            .photo-stack:hover .photo-stack-item:nth-child(2) {
+                transform: rotate(-5deg) translateX(-15px);
+            }
 
-        .photo-stack:hover .photo-stack-item:nth-child(3) {
-            transform: rotate(5deg) translateX(15px);
-        }
+            .photo-stack:hover .photo-stack-item:nth-child(3) {
+                transform: rotate(5deg) translateX(15px);
+            }
 
-        .photo-stack:hover .photo-stack-item:nth-child(4) {
-            transform: rotate(15deg) translateX(30px);
+            .photo-stack:hover .photo-stack-item:nth-child(4) {
+                transform: rotate(15deg) translateX(30px);
+            }
         }
 
         .photo-stack-label {
@@ -461,6 +472,34 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0, 170, 255, 0.3);
         }
+
+        /* Кнопка Max */
+        .max-btn {
+            background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+            transition: all 0.3s ease;
+        }
+
+        .max-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.3);
+        }
+
+        /* Адаптация для мобильных */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .photo-stack {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .grid {
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-gray-50">
@@ -468,7 +507,7 @@
     <!-- Навигация -->
     <nav class="bg-white shadow-md fixed w-full z-50 transition-all duration-300" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold gradient-text editable" data-id="nav-logo">🏡 Дом на Ольховой</div>
+            <div class="text-2xl font-bold gradient-text editable" data-id="nav-logo"> Дом на Ольховой</div>
             <div class="hidden md:flex space-x-8">
                 <a href="#about" class="hover:text-green-600 transition font-medium">О доме</a>
                 <a href="#gallery" class="hover:text-green-600 transition font-medium">Фото</a>
@@ -512,7 +551,7 @@
             </div>
             <div class="scroll-reveal">
                 <div class="bg-green-50 p-6 rounded-xl">
-                    <h3 class="font-bold text-xl mb-4 text-green-700">📍 Расположение</h3>
+                    <h3 class="font-bold text-xl mb-4 text-green-700"> Расположение</h3>
                     <p class="text-gray-700 mb-3">Республика Адыгея, Майкопский р-н, пос. Тульский, ул. Ольховая, 18</p>
                     <div class="flex items-center text-sm text-gray-600">
                         <i class="fas fa-walking mr-2"></i>
@@ -680,7 +719,7 @@
                     </div>
                     
                     <div id="seasonalNotice" class="hidden seasonal-badge text-white p-4 rounded-lg text-center font-bold">
-                        🎄 Новогодние праздники! Специальный тариф: 7000 ₽/сутки
+                        🎄 Новогодние праздники! Специальный тариф: 10000 ₽/сутки
                     </div>
 
                     <div class="bg-gray-100 p-6 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4">
@@ -694,9 +733,15 @@
                         </div>
                     </div>
 
-                    <button type="button" onclick="sendToWhatsApp()" class="btn-primary w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg text-lg transition flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fab fa-whatsapp text-2xl"></i> Отправить заявку в WhatsApp
-                    </button>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <button type="button" onclick="sendToWhatsApp()" class="btn-primary w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg text-lg transition flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fab fa-whatsapp text-2xl"></i> WhatsApp
+                        </button>
+
+                        <button type="button" onclick="sendToMax()" class="max-btn w-full text-white font-bold py-4 rounded-lg text-lg transition flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fas fa-comment text-2xl"></i> Max
+                        </button>
+                    </div>
 
                     <a href="https://www.avito.ru/tulskiy/doma_dachi_kottedzhi/2-k._dom_60_m_2283776657" 
                        target="_blank" 
@@ -704,7 +749,7 @@
                         <i class="fas fa-shopping-bag text-2xl"></i> Забронировать через Авито
                     </a>
 
-                    <p class="text-xs text-center text-gray-500">Выберите удобный способ: напишите нам в WhatsApp или забронируйте напрямую через Авито.</p>
+                    <p class="text-xs text-center text-gray-500">Выберите удобный способ: напишите нам в WhatsApp или Max, или забронируйте напрямую через Авито.</p>
                 </form>
             </div>
         </div>
@@ -713,7 +758,7 @@
     <!-- Футер -->
     <footer class="bg-gray-900 text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="mb-4 editable" data-id="footer-address"> Республика Адыгея, Майкопский р-н, пос. Тульский, ул. Ольховая, 18</p>
+            <p class="mb-4 editable" data-id="footer-address">📍 Республика Адыгея, Майкопский р-н, пос. Тульский, ул. Ольховая, 18</p>
             <p class="mb-4 editable" data-id="footer-phone">📞 +7 (952) 979-54-06 (Андрей и Надежда)</p>
             <div class="mb-4">
                 <a href="https://www.avito.ru/tulskiy/doma_dachi_kottedzhi/2-k._dom_60_m_2283776657" 
@@ -963,14 +1008,15 @@
         checkout.min = today;
 
         const BASE_PRICE = 5000;
-        const SEASONAL_PRICE = 7000;
+        const SEASONAL_PRICE = 10000; // Новогодняя цена
 
         function isSeasonalPeriod(date) {
             const month = date.getMonth();
             const day = date.getDate();
             
-            if (month === 11 && day >= 20) return true;
-            if (month === 0 && day <= 15) return true;
+            // Новогодний период: 30 декабря - 9 января
+            if (month === 11 && day >= 30) return true; // Декабрь с 30-го
+            if (month === 0 && day <= 9) return true; // Январь до 9-го
             return false;
         }
 
@@ -1039,9 +1085,33 @@
             }
 
             const phone = '79529795406'; 
-            const message = `Здравствуйте! Хочу забронировать гостевой дом на Ольховой.%0A Заезд: ${inDate}%0A Выезд: ${outDate}%0A Гостей: ${guests}%0A Итого: ${total} ₽.%0AПодтвердите, пожалуйста, наличие мест.`;
+            const message = `Здравствуйте! Хочу забронировать гостевой дом на Ольховой.%0A📅 Заезд: ${inDate}%0A📅 Выезд: ${outDate}%0A👥 Гостей: ${guests}%0A💰 Итого: ${total} ₽.%0AПодтвердите, пожалуйста, наличие мест.`;
             
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        }
+
+        // 3. ОТПРАВКА В MAX
+        function sendToMax() {
+            const inDate = checkin.value;
+            const outDate = checkout.value;
+            const guests = document.getElementById('guests').value;
+            const total = document.getElementById('totalPrice').innerText;
+            
+            if (!inDate || !outDate) {
+                alert('Пожалуйста, выберите даты заезда и выезда');
+                return;
+            }
+
+            const phone = '79529795406'; 
+            const message = `Здравствуйте! Хочу забронировать гостевой дом на Ольховой.%0A📅 Заезд: ${inDate}%0A📅 Выезд: ${outDate}%0A👥 Гостей: ${guests}%0A💰 Итого: ${total} ₽.%0AПодтвердите, пожалуйста, наличие мест.`;
+            
+            // Max messenger использует схему max://
+            window.open(`max://send?phone=${phone}&text=${encodeURIComponent(message)}`, '_self');
+            
+            // Если Max не установлен, пробуем веб-версию
+            setTimeout(() => {
+                window.open(`https://max.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+            }, 1000);
         }
 
         // 4. АНИМАЦИИ ПРИ СКРОЛЛЕ
